@@ -1,0 +1,30 @@
+PASTA:
+  - stage: Define the Objectives
+    outcome: A highly available and secure solution for remote storing of the HR system backups with sensitive PII data
+    requirements:
+  - stage: Define the Technical Scope
+    components: 
+      service: on-premise HR software
+      storage: AWS S3
+      networking: Internet
+    dependencies:
+  - stage: Decompose the Application
+    data flow: Backups will be uploaded to the AWS S3 bucket from the on-premise HR system. Data will be transferred via the Internet. In case of disaster, the backup will be downloaded from the S3 bucket by the HR system admin to launch the restoration process.
+    users and roles:
+  - stage: Analyze the Threats
+    framework: STRIDE
+      Spoofing: unauthorized access to the backups using an anonymous user
+      Tampering: backups data modification
+      Repudiation: cleanup of the audit trails
+      Information Disclosure: data exposure, man-in-the-middle attack
+      Denial of Service: volumetric DDoS attack
+      Elevation of Privilege: backups removal
+  - stage: Vulnerability Analysis
+  - stage: Attack Analysis
+  - stage: Risk and Impact Analysis
+    - risk: high, backups damage (modification, deletion)
+      impact: unable to restore the data in case of disaster
+      mitigation: apply WORM configuration (S3 Object Lock), enable S3 versioning
+    - risk: high, data exposure
+      impact: reputation lost, penalties
+      mitigation: enforce TLS v1.2 or higher
